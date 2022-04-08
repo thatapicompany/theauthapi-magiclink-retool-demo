@@ -1,5 +1,3 @@
-# Demo
-
 # Quick Start Instructions
 
 ```
@@ -58,7 +56,7 @@ Magic is a passwordless authentication SDK that lets you plug and play different
 
 ## TheAuthAPI
 
-Head to [theauthapi.com](theauthapi.com) and create a new account. Set up a new project and copy your Access Key and Project ID values into `.env` as `AUTHAPI_ACCESS_KEY` and `AUTHAPI_PROJECT_ID`.
+Head to [theauthapi.com](https://theauthapi.com) and create a new account. Set up a new project and copy your Access Key and Project ID values into `.env` as `AUTHAPI_ACCESS_KEY` and `AUTHAPI_PROJECT_ID`.
 
 Also, set up a spare test key for your retool app to fallback to while you're developing.
 
