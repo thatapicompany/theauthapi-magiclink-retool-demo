@@ -7,7 +7,7 @@ $ git clone https://github.com/thatapicompany/theauthapi-magiclink-retool-demo
 $ cd theauthapi-magiclink-retool-demo
 $ mv .env.example .env // For entering your Magic and TheAuthAPI keys as env variables
 $ yarn install
-$ yarn dev // starts app in http://localhost:3000
+$ yarn dev // Starts app at http://localhost:3000
 ```
 
 ## Environment Variables
@@ -81,12 +81,12 @@ Create a new piece of JS code called `authenticateApp` to collect your API token
     },
     // You can use the argument to get the data with the onSuccess function
     onSuccess: function (data) {
-      validationText.setValue("API KEY IS VALID"); //example of a valid response
-      secureContent.setShowBody(true); //show the app
+      validationText.setValue("API KEY IS VALID"); // Example of a valid response
+      secureContent.setShowBody(true); // Show the app
     },
     onFailure: function (err) {
-      validationText.setValue("API KEY IS NOT VALID"); //example of an error response
-      secureContent.setShowBody(false); //hide the app from the user
+      validationText.setValue("API KEY IS NOT VALID"); // Example of an error response
+      secureContent.setShowBody(false); // Hide the app from the user
     },
   });
 })();
@@ -172,8 +172,8 @@ The social login implementation is similar. `magic.oauth.loginWithRedirect()` ta
 ```js
 function handleLoginWithSocial(provider) {
   magic.oauth.loginWithRedirect({
-    provider, // google, apple, etc
-    redirectURI: new URL("/callback", window.location.origin).href, // required redirect to finish social login
+    provider, // Google, apple, etc
+    redirectURI: new URL("/callback", window.location.origin).href, // Required redirect to finish social login
   });
 }
 ```
