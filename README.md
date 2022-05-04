@@ -1,13 +1,11 @@
-# Demo
-
 # Quick Start Instructions
 
 ```
 $ git clone https://github.com/thatapicompany/theauthapi-magiclink-retool-demo
 $ cd theauthapi-magiclink-retool-demo
-$ mv .env.local.example .env.local // enter your Magic API and The AuthAPI keys in your env variables
+$ mv .env.example .env // For entering your Magic and TheAuthAPI keys as env variables
 $ yarn install
-$ yarn dev // starts app in http://localhost:3000
+$ yarn dev // Starts app at http://localhost:3000
 ```
 
 ## Environment Variables
@@ -21,9 +19,9 @@ AUTHAPI_PROJECT_ID=...
 
 # Introduction
 
-The Auth API is a simple API key management tool. The Auth API supports creating an API key via an API call, passing a unique identifier any meta data you want to keep for later. Working with Magic.link, you can authenticate a user, then pass their magic.link unique identifier to The Auth API to generate a new key. This key can be tested for validation from any other app you wish to use e.g. Retool.
+TheAuthAPI is a simple API key management tool. It supports creating an API key via an API call, passing a unique identifier and optionally any meta data you want to keep for later. Working with Magic you can authenticate a user and then pass their Magic unique identifier to TheAuthAPI to generate a new key. This key can be tested for validation from any other app you wish to use (e.g. Retool).
 
-Magic is a passwordless authentication sdk that lets you plug and play different auth methods into your app. Magic supports passwordless email login via magic links, social login (such as Login with Google), and WebAuthn (a protocol that lets users authenticate a hardware device using either a YubiKey or fingerprint). This app will walk through implementing magic link and social logins.
+Magic is a passwordless authentication SDK that lets you plug and play different auth methods into your app. It supports passwordless email login via magic links, social login (such as Login with Google), and WebAuthn (a protocol that lets users authenticate a hardware device using either a YubiKey or fingerprint). This demo app will walk through implementing magic link and social logins.
 
 ## File Structure
 
@@ -56,17 +54,17 @@ Magic is a passwordless authentication sdk that lets you plug and play different
 └── yarn.lock
 ```
 
-## The Auth API
+## TheAuthAPI
 
-Head to [theauthapi.com](theauthapi.com) to create a new account. Set-up a new project and copy your Access Key and Project Id into the `.env.local` `AUTHAPI_ACCESS_KEY`, `AUTHAPI_PROJECT_ID`.
+Head to [theauthapi.com](https://theauthapi.com) and create a new account. Set up a new project and copy your Access Key and Project ID values into `.env` as `AUTHAPI_ACCESS_KEY` and `AUTHAPI_PROJECT_ID`.
 
-Also, setup a spare test key for your retool app to fallback to while your developing.
+Also, set up a spare test key for your retool app to fallback to while you're developing.
 
-## Your Retool App
-
-In your [retool.com](https://Retool.com) app, create a new `parentWindow` resource with the selector `#api_key`. You can enter your test key you generated in The AuthAPI interface.
+## Demo Retool App
 
 _VIDEO COMING SOON_
+
+In your [retool.com](https://Retool.com) app, create a new `parentWindow` resource with the selector `#api_key`. You can enter the test key you generated in TheAuthAPI dashboard.
 
 Create a new API `GET` resource called `testAPIKey` pointing to `https://api.theauthapi.com/api-keys/{{getAPIKeyToken.data}}`
 with the header `x-api-key : [Access Key]`
@@ -81,24 +79,24 @@ Create a new piece of JS code called `authenticateApp` to collect your API token
     },
     // You can use the argument to get the data with the onSuccess function
     onSuccess: function (data) {
-      validationText.setValue("API KEY IS VALID"); //example of a valid response
-      secureContent.setShowBody(true); //show the app
+      validationText.setValue("API KEY IS VALID"); // Example of a valid response
+      secureContent.setShowBody(true); // Show the app
     },
     onFailure: function (err) {
-      validationText.setValue("API KEY IS NOT VALID"); //example of an error response
-      secureContent.setShowBody(false); //hide the app from the user
+      validationText.setValue("API KEY IS NOT VALID"); // Example of an error response
+      secureContent.setShowBody(false); // Hide the app from the user
     },
   });
 })();
 ```
 
-When you're ready to share private access to your app and click 'Share' > 'Public' > 'Enable public access'. Copy this link and paste into `.env.local` `NEXT_PUBLIC_RETOOL_APP` variable.
+When you're ready to share private access to your app, click 'Share' > 'Public' > 'Enable public access'. Copy the URL and paste it into your `.env` as the `NEXT_PUBLIC_RETOOL_APP` value.
 
 ## Magic Setup
 
-Your Magic setup will depend on what login options you want. For magic links, minimal setup is required. For social logins, follow our [**documentation**](https://docs.magic.link/social-login) for configuration instructions.
+Your Magic setup will depend on what login options you want. For magic links, minimal setup is required. For social logins, follow their [**documentation**](https://magic.link/docs#social-logins) for instructions.
 
-Once you have social logins configured (if applicable), grab your API keys from Magic’s dashboard and in `.env.local` enter your Test Publishable Key such as `NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY=pk_test_1234567890` and your Test Secret Key such as `MAGIC_SECRET_KEY=sk_test_1234567890`.
+Once you have social logins configured (if you're using those), enter your Publishable Key and Test Secret Key from Magic's dashboard as the `NEXT_PUBLIC_MAGIC_PUBLISHABLE_KEY` and `MAGIC_SECRET_KEY` values in your `.env`.
 
 # Client
 
@@ -172,8 +170,8 @@ The social login implementation is similar. `magic.oauth.loginWithRedirect()` ta
 ```js
 function handleLoginWithSocial(provider) {
   magic.oauth.loginWithRedirect({
-    provider, // google, apple, etc
-    redirectURI: new URL("/callback", window.location.origin).href, // required redirect to finish social login
+    provider, // Google, apple, etc
+    redirectURI: new URL("/callback", window.location.origin).href, // Required redirect to finish social login
   });
 }
 ```
@@ -252,9 +250,9 @@ export default async function login(req, res) {
 }
 ```
 
-## Validating the Magic user with the theauthapi.com
+## Validating the Magic user with theauthapi.com
 
-When a new user is granted access to your app, we need to generate a new access token for them. This token is then tied to this user for all future access. You can use this token test access privileges across any app you control.
+When a new user is granted access to your app, we need to generate a new access token for them. This token is then tied to this user for all future access. You can use this token to test access privileges across any app you control.
 
 That's it! You now have a working Next.js app that includes Magic authentication for both magic links and social logins, connecting your Retool App.
 
@@ -322,4 +320,4 @@ async function createANewKey(issuer, email) {
 
 ## Deploying to Vercel
 
-Follow [this guide](https://magic.link/posts/magic-link-nextjs) for deploying to Vercel
+Follow [this guide](https://magic.link/posts/magic-link-nextjs) for deploying to Vercel.
